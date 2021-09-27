@@ -21,10 +21,10 @@ def get_most_recent_game(username):
     # print(game)
     # print(url)
     pgn = game['pgn']
-    print(pgn)
+    # print(pgn)
     return pgn
 
-get_most_recent_game("dineshNG")
+# get_most_recent_game("dineshNG")
 
 app = Flask(__name__)
 
