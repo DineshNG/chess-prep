@@ -8,10 +8,11 @@ def getPlayerDetails(username):
     data = get_player_stats(username).json['stats']
     categories = ['chess_rapid', 'chess_blitz', 'chess_bullet']
     for category in categories:
-        print(f" CATEGORY: {category} ")
-        print(f" CURRENT RATING: {data[category]['last']['rating']} ")
-        print(f" PEAK RATING: {data[category]['best']['rating']} ")
-        print(f" RECORD: {data[category]['record']} ")
+        # print(f" CATEGORY: {category} ")
+        # print(f" CURRENT RATING: {data[category]['last']['rating']} ")
+        # print(f" PEAK RATING: {data[category]['best']['rating']} ")
+        # print(f" RECORD: {data[category]['record']} ")
+        return category, data[category]['last']['rating'], data[category]['best']['rating'], data[category]['record']
 
 def get_most_recent_game(username):
     data = get_player_game_archives(username).json['archives']
@@ -28,13 +29,24 @@ def get_most_recent_game(username):
 
 app = Flask(__name__)
 
-@app.route('/',methods = ['GET','POST'])
+@app.route('/', methods = ['GET','POST'])
 def home():
     if request.method == "POST":
         username = request.form.get('username')
         pgn = get_most_recent_game(username)
-        return render_template('board.html',pgn = pgn)
-    return render_template('board.html')
+        category, crating, prating, record = getPlayerDetails(username)
+        return render_template('board.html',
+                               pgn = pgn,
+                               username=username,
+                               category=category,
+                               crating=crating,
+                               prating=prating,
+                               record=record)
+    return render_template('index.html')
+
+@app.route('/tactics')
+def tactics():
+    return  render_template('tactics.html')
 
 if __name__ == '__main__':
-    app.run(debug=False)
+    app.run(debug=True)
