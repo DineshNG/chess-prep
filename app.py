@@ -36,5 +36,5 @@ def home():
         return render_template('board.html',pgn = pgn)
     return render_template('board.html')
 
-app.run()
-
+if __name__ == '__main__':
+    app.run(debug=False)
