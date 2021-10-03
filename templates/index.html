@@ -3,13 +3,45 @@
 
 <main class="flex-shrink-0">
 <div class="container">
+        {% with messages = get_flashed_messages() %}
+  {% if messages %}
+
+    {% for message in messages %}
+
+<div class="alert" style="padding: 20px;
+  background-color: #f44336; /* Red */
+  color: white;
+  margin-bottom: 15px;">
+  <span class="closebtn" onclick="this.parentElement.style.display='none';" style="margin-left: 15px;
+  color: white;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;">&times;</span>
+  {{message}}
+</div>
+
+    {% endfor %}
+
+ {% endif %}
+{% endwith %}
+        <!-- {% if error %}
+         <p class=error><strong>Error:</strong> {{ error }}
+        {% endif %} -->
         <h1 class="mt-5">This is the ChessPrep site</h1>
         <p class="lead">Prepare for your next match here.</p>
         <div align="center">
-        <img src="{{ url_for('static', filename='img/thumbnail.jpg')}}" align="center" style="width: 100%; height: auto;">
+        <img src="{{ url_for('static', filename='img/thumbnail.jpg')}}" align="center" style="width: 50%; height: auto;">
                 
         </div>
 </div>
+
+
+
+
+
 </main>
 
 

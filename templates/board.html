@@ -6,13 +6,30 @@
 
 <main class="flex-shrink-0">
 <div class="container">
-        <h1 class="mt-5">Stats for {{username}}</h1>
-        <br><p class="lead">
-            Current Rating: {{crating}} |
-            Peak Rating: {{prating}} |
-            Record: {{record}}
+        <h1 class="mt-5">
+            Stats for 
+        <img src="{{ player_profile['avatar'] }}" width="54" height="54" style="border-radius: 10px;" onerror=this.src="{{url_for('static',filename='img/chesscom_logo.jpg')}}">
+
+            {{ player_profile['username'] }}
+
+        </h1>
+        <br>
+
+        {% for category in categories %}
+
+        <p >
+            <b>{{ category[6:]|capitalize }} | </b>
+            Current Rating: <b>{{ player_stats[category]['last']['rating'] }}</b> |
+            Peak Rating: <b>{{ player_stats[category]['best']['rating'] }}</b> |
+            Wins: <b>{{ player_stats[category]['record']['win'] }}</b>, Losses:<b> {{ player_stats[category]['record']['loss'] }}</b> , Draws: <b>{{ player_stats[category]['record']['draw'] }}</b>
         </p>
-        <p >Latest game of <a href="https://chess.com/member/{{username}}" target="_blank">{{username}}</a></p>
+
+
+        {% endfor %}
+        
+
+
+        <p >Latest game of <a href="https://chess.com/member/{{player_profile['username']}}" target="_blank">{{player_profile['username']}}</a></p>
 
     </div>
 
