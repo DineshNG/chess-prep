@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, session, redirect, flash
 import requests
-from chessdotcom import get_player_profile, get_player_stats, get_player_game_archives, get_player_games_by_month_pgn
+from chessdotcom import get_player_profile, get_player_stats, get_player_game_archives, get_player_games_by_month
 import pprint
 
 printer = pprint.PrettyPrinter()
@@ -52,6 +52,27 @@ def isValid(username):
     except:
         return False
 
+def gamesbyMonth(username,year,month):
+    gamelist = []
+    try:
+        res = get_player_games_by_month(username,year,month)
+        data = res.json['games']
+        if(len(data)>0):
+            for game in data:
+                game_dict = {}
+                game_dict['pgn'] = game['pgn']
+                game_dict['time'] = game['time_class']
+                game_dict['white'] = game['white']['username']
+                game_dict['black'] = game['black']['username']
+                game_dict['url'] = game['url']
+                gamelist.append(game_dict)
+        return gamelist
+    except:
+        return gamelist
+
+
+
+
 
 app = Flask(__name__)
 app.secret_key = 'this_is_my_key_of_secrets'
@@ -61,21 +82,33 @@ app.secret_key = 'this_is_my_key_of_secrets'
 def home():
     if request.method == "POST":
         username = request.form.get('username')
-        return redirect('/player/' + username)
+        return redirect('/' + username)
     return render_template('index.html')
 
 
-@app.route('/player/<string:username>', methods=['GET', 'POST'])
+@app.route('/<string:username>', methods=['GET', 'POST'])
 def player(username):
     if isValid(username):
         pgn = latestGame(username)
         player_profile = playerProfile(username)
         categories, player_stats = playerStats(username)
-        return render_template('board.html', pgn=pgn, categories=categories, player_profile=player_profile,
+        return render_template('player.html', pgn=pgn, categories=categories, player_profile=player_profile,
                                player_stats=player_stats)
     else:
         flash("Username not found", "warning")
         return redirect('/')
+
+@app.route('/<string:username>/games',methods=['GET','POST'])
+def games(username):
+    if request.method == "POST":
+        pgn=""
+        daymonth = request.form.get('daymonth')
+        year = daymonth[0:4]
+        month = daymonth[5:]
+        gamelist = gamesbyMonth(username,year,month)
+        gamelist.reverse()
+        return render_template('board.html', pgn=pgn, gamelist = gamelist,username=username)
+
 
 
 @app.route('/tactics')

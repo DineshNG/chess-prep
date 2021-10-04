@@ -1,0 +1,53 @@
+{% extends "layout.html" %}
+{% block body %}
+
+
+
+
+<main class="flex-shrink-0">
+<div class="container">
+       
+        <h1 class="mt-5">
+        <img src="{{ player_profile['avatar'] }}" width="54" height="54" style="border-radius: 10px;" onerror=this.src="{{url_for('static',filename='img/chesscom_logo.jpg')}}">
+
+            <a href="https://chess.com/member/{{player_profile['username']}}" target="_blank" style="text-decoration: none;">
+            {{ player_profile['username'] }}
+            </a>
+            stats
+        </h1>
+        <div class="alert" style="padding: 20px;background-color: #34834c; color: white;margin-bottom: 15px;">
+
+            {% for category in categories %}
+
+          <p>
+            
+            <b>{{ category[6:]|capitalize }} | </b>
+            Current Rating: <b>{{ player_stats[category]['last']['rating'] }}</b> |
+            Peak Rating: <b>{{ player_stats[category]['best']['rating'] }}</b> |
+            Wins: <b>{{ player_stats[category]['record']['win'] }}</b>, Losses:<b> {{ player_stats[category]['record']['loss'] }}</b> , Draws: <b>{{ player_stats[category]['record']['draw'] }}</b>
+            
+          </p>
+        {% endfor %}
+        </div>
+
+        <form action="/{{player_profile['username']}}/games"  method="post">
+            <label for="daymonth">Search games for (month and year):</label>
+            <input type="month" id="daymonth" name="daymonth" required>
+            <input type="submit">
+        </form>
+
+</div>
+
+<div class="container">
+<strong> Last game played:</strong>    
+</div>
+
+{% if pgn %}
+<div class="cbreplay" align="center">
+    {{pgn}}
+</div>
+{% endif %}
+
+</main>
+
+{% endblock %}
