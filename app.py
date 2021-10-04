@@ -82,6 +82,9 @@ def player(username):
 def tactics():
     return render_template('tactics.html')
 
+@app.route('/leaderboards')
+def leaderboards():
+    return render_template('leaderboards.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
