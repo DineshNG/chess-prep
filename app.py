@@ -1,9 +1,6 @@
 from flask import Flask, render_template, request, session, redirect, flash
 import requests
 from chessdotcom import get_player_profile, get_player_stats, get_player_game_archives, get_player_games_by_month
-import pprint
-
-printer = pprint.PrettyPrinter()
 
 
 def playerProfile(username):
@@ -72,7 +69,9 @@ def gamesbyMonth(username,year,month):
 
 
 
-
+"""
+App config section
+"""
 
 app = Flask(__name__)
 app.secret_key = 'this_is_my_key_of_secrets'
@@ -82,11 +81,11 @@ app.secret_key = 'this_is_my_key_of_secrets'
 def home():
     if request.method == "POST":
         username = request.form.get('username')
-        return redirect('/' + username)
+        return redirect('/player/' + username)
     return render_template('index.html')
 
 
-@app.route('/<string:username>', methods=['GET', 'POST'])
+@app.route('/player/<string:username>', methods=['GET', 'POST'])
 def player(username):
     if isValid(username):
         pgn = latestGame(username)
@@ -98,7 +97,7 @@ def player(username):
         flash("Username not found", "warning")
         return redirect('/')
 
-@app.route('/<string:username>/games',methods=['GET','POST'])
+@app.route('/player/<string:username>/games',methods=['GET','POST'])
 def games(username):
     if request.method == "POST":
         pgn=""
@@ -107,7 +106,7 @@ def games(username):
         month = daymonth[5:]
         gamelist = gamesbyMonth(username,year,month)
         gamelist.reverse()
-        return render_template('board.html', pgn=pgn, gamelist = gamelist,username=username)
+        return render_template('games.html', pgn=pgn, gamelist = gamelist,username=username)
 
 
 
@@ -118,6 +117,14 @@ def tactics():
 @app.route('/leaderboards')
 def leaderboards():
     return render_template('leaderboards.html')
+
+@app.route('/analyze',methods=['GET','POST'])
+def analyze():
+    if request.method == 'POST':
+        pgn = request.form.get('analyze')
+        return render_template('analyze.html',pgn=pgn)
+    else:
+        return render_template('analyze.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

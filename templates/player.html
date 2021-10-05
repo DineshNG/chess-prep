@@ -30,7 +30,7 @@
         {% endfor %}
         </div>
 
-        <form action="/{{player_profile['username']}}/games"  method="post">
+        <form action="/player/{{player_profile['username']}}/games"  method="post">
             <label for="daymonth">Search games for (month and year):</label>
             <input type="month" id="daymonth" name="daymonth" required>
             <input type="submit">
