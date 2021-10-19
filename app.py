@@ -125,6 +125,9 @@ def analyze():
         return render_template('analyze.html',pgn=pgn)
     else:
         return render_template('analyze.html')
+@app.route('/board')
+def board():
+    return render_template('board.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
