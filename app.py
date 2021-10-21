@@ -1,6 +1,9 @@
 from flask import Flask, render_template, request, session, redirect, flash
 import requests
 from chessdotcom import get_player_profile, get_player_stats, get_player_game_archives, get_player_games_by_month
+import chess.engine
+
+engine = chess.engine.SimpleEngine.popen_uci("engine/stockfish_14_win_x64_avx2/stockfish_14_x64_avx2.exe")
 
 
 def playerProfile(username):
@@ -125,9 +128,18 @@ def analyze():
         return render_template('analyze.html',pgn=pgn)
     else:
         return render_template('analyze.html')
+
 @app.route('/board')
 def board():
     return render_template('board.html')
 
+@app.route('/make_move', methods = ['POST'])
+def make_move():
+    fen = request.form.get('data')
+    board = chess.Board(fen)
+    info = engine.play(board,chess.engine.Limit(time=1.0))
+    board.push(info.move)
+    return board.fen()
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True,threaded = True)
