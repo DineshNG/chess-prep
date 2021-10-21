@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 from flask import Flask, render_template, request, session, redirect, flash
 import requests
 from chessdotcom import get_player_profile, get_player_stats, get_player_game_archives, get_player_games_by_month
@@ -5,10 +6,11 @@ import chess.engine
 import os
 import stat
 
-st = os.stat('engine/stockfish_14_win_x64_avx2/stockfish_14_x64_avx2.exe')
-os.chmod('engine/stockfish_14_win_x64_avx2/stockfish_14_x64_avx2.exe', st.st_mode | stat.S_IEXEC)
+engine_path = "engine/stockfish_14_win_x64_avx2/stockfish_14_x64_avx2.exe"
+st = os.stat(engine_path)
+os.chmod(engine_path, st.st_mode | stat.S_IEXEC)
 
-engine = chess.engine.SimpleEngine.popen_uci("engine/stockfish_14_win_x64_avx2/stockfish_14_x64_avx2.exe")
+engine = chess.engine.SimpleEngine.popen_uci(engine_path)
 
 
 def playerProfile(username):
