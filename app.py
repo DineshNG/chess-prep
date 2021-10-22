@@ -10,7 +10,7 @@ engine_path = "engine/stockfish_14_win_x64_avx2/stockfish_14_x64_avx2.exe"
 # st = os.stat(engine_path)
 # os.chmod(engine_path, st.st_mode | stat.S_IEXEC)
 
-engine = chess.engine.SimpleEngine.popen_uci(engine_path)
+
 
 
 def playerProfile(username):
@@ -142,6 +142,7 @@ def board():
 
 @app.route('/make_move', methods = ['POST'])
 def make_move():
+    engine = chess.engine.SimpleEngine.popen_uci(engine_path)
     fen = request.form.get('data')
     board = chess.Board(fen)
     info = engine.play(board,chess.engine.Limit(time=1.0))
