@@ -23,8 +23,7 @@
             
         </div>
 
-</div>
-<div class="container">
+
     <table class="table">
         <thead>
         <tr>
@@ -37,11 +36,11 @@
         </thead>
         <tbody>
     {% for game in gamelist %}
-            <tr>
+            <tr >
                 <td>{{game['time']|capitalize}}</td>
-                <td>{{game['white']}}</td>
-                <td>{{game['black']}}</td>
-                <td><a href="{{ game['url'] }}", target="_blank">{{ game['url'] }}</a></td>
+                <td style="background-color:{{game['result_color']}};color:black">{{game['white']}}</td>
+                <td style="background-color:{{game['result_color']}};color:black">{{game['black']}}</td>
+                <td><a href="{{ game['url'] }}", target="_blank" style="color:inherit;">{{ game['url'] }}</a></td>
                 <td>
                     <form action="/analyze" method="post" target="_blank">
                         <button class="btn btn-primary btn-sm" type="submit" name="analyze" value="{{game['pgn']}}">

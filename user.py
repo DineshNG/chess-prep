@@ -51,11 +51,31 @@ def gamesbyMonth(username, year, month):
         if (len(data) > 0):
             for game in data:
                 game_dict = {}
+                result = "draw"
                 game_dict['pgn'] = game['pgn']
                 game_dict['time'] = game['time_class']
                 game_dict['white'] = game['white']['username']
                 game_dict['black'] = game['black']['username']
                 game_dict['url'] = game['url']
+                black_result = game['black']['result']
+                white_result = game['white']['result']
+                if game_dict['white'].casefold() == username.casefold():
+                    if white_result == 'win':
+                        result = "win"
+                    elif black_result == 'win':
+                        result = "lost"
+                if game_dict['black'].casefold() == username.casefold():
+                    if black_result == 'win':
+                        result = "win"
+                    elif white_result == 'win':
+                        result = "lost"
+                if result == "win":
+                    result_color = "#30a153cf"
+                if result == "lost":
+                    result_color = "#ff3333"
+                if result == "draw":
+                    result_color = "#a5a5a5"
+                game_dict['result_color'] = result_color
                 gamelist.append(game_dict)
         return gamelist
     except:

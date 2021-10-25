@@ -81,18 +81,33 @@
     </nav>
 </header>
 
-<div align="center" class="container">
+<div align="center" id="chess_board" class="container">
     <br>
-    <h1 class="mt-5">ChessBoard</h1>
+    <h1 class="mt-5" >ChessBoard</h1>
     <div id="myBoard" style="width: 400px"></div>
-    <label>Status:</label>
+    <br> <label>Status:</label>
     <div id="status"></div>
-    <label>FEN:</label>
-    <div id="fen"></div>
+
+<!--    <button id="take_back" class="btn btn-outline-secondary">Take back</button>-->
+<!--    <label>FEN:</label>-->
+<!--    <div id="fen"></div>-->
 <!--    <label>PGN:</label>-->
 <!--    <div id="pgn"></div>-->
 
 </div>
+
+<footer class="footer mt-auto py-3 bg-light">
+    <div class="container">
+        <span class="text-muted">ChessPrep | Created by Dinesh Goswami.</span>
+    </div>
+</footer>
+
+
+<script src="  {{ url_for('static', filename='js/bootstrap.bundle.min.js') }} " integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+
+</body>
+</html>
+
 <script>
 var board = null
 var game = new Chess()
@@ -142,11 +157,13 @@ function onDrop (source, target) {
   // illegal move
   if (move === null) return 'snapback'
 
-  updateStatus()
+    // make HTTP POST request to make move API
   $.post('/make_move',{data:game.fen(),pgn: game.pgn()},function (fen){
     game.load(fen)
     board.position(game.fen());
-    if(game.game_over()) updateStatus();
+    updateStatus();
+<!--    if(game.game_over()) updateStatus();-->
+    updateStatus();
   });
 }
 function onMouseoverSquare (square, piece) {
@@ -222,17 +239,10 @@ var config = {
 }
 board = Chessboard('myBoard', config)
 
-updateStatus()
+// prevent scrolling on touch devices
+$('#chess_board').on('scroll touchmove touchend touchstart contextmenu', function(e) {
+    e.preventDefault();
+});
+
+updateStatus();
 </script>
-
-<footer class="footer mt-auto py-3 bg-light">
-    <div class="container">
-        <span class="text-muted">ChessPrep | Created by Dinesh Goswami.</span>
-    </div>
-</footer>
-
-
-<script src="  {{ url_for('static', filename='js/bootstrap.bundle.min.js') }} " integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
-
-</body>
-</html>
