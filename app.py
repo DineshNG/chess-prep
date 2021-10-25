@@ -78,6 +78,7 @@ def make_move():
     board = chess.Board(fen)
     info = engine.play(board,chess.engine.Limit(time=1.0))
     board.push(info.move)
+    engine.quit()
     return board.fen()
 
 if __name__ == '__main__':
