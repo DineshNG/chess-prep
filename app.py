@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/bin/env python3
 from flask import Flask, render_template, request, session, redirect, flash
 import requests
 from chessdotcom import get_player_profile, get_player_stats, get_player_game_archives, get_player_games_by_month
