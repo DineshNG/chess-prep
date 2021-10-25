@@ -7,8 +7,8 @@ import os
 import stat
 
 engine_path = "engine/stockfish_14_win_x64_avx2/stockfish_14_x64_avx2.exe"
-# st = os.stat(engine_path)
-# os.chmod(engine_path, st.st_mode | stat.S_IEXEC)
+st = os.stat(engine_path)
+os.chmod(engine_path, st.st_mode | stat.S_IEXEC)
 
 
 
