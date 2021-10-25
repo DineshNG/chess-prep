@@ -70,8 +70,8 @@ def board():
 @app.route('/make_move', methods = ['POST'])
 def make_move():
     if sys.platform == "linux":
-        os.chmod("./bbc_1.4", stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH)
-        engine = chess.engine.SimpleEngine.popen_uci("./bbc_1.4")
+        os.chmod("./sf14", stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH)
+        engine = chess.engine.SimpleEngine.popen_uci("./sf14")
     else:
         engine = chess.engine.SimpleEngine.popen_uci("./sf14.exe")
     fen = request.form.get('data')
