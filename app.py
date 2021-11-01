@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, session, redirect, flash
 import chess.engine
+import datetime
 import os
 import sys
 import stat
@@ -43,7 +44,8 @@ def games(username):
         month = daymonth[5:]
         gamelist = gamesbyMonth(username,year,month)
         gamelist.reverse()
-        return render_template('games.html', pgn=pgn, gamelist = gamelist,username=username)
+        month_string = datetime.datetime(int(year),int(month),1).strftime("%B")
+        return render_template('games.html', pgn=pgn, gamelist = gamelist,username=username,month=month_string,year=year)
 
 
 

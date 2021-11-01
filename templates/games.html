@@ -5,55 +5,56 @@
 
 
 <main class="flex-shrink-0">
-<div class="container">
-       
-        <h1 class="mt-5">
+    <div class="container">
+
+        <h2 class="mt-5">
 
             <a href="https://chess.com/member/{{username}}" target="_blank" style="text-decoration: none;">
-            {{ username }}
+                {{ username }}
             </a>
-            Games
-        </h1>
+            Games for {{month}}, {{year}}
+        </h2>
+
         <div class="alert" style="padding: 20px;background-color: #34834c; color: white;margin-bottom: 15px;">
             {% if gamelist %}
-    Found {{gamelist|length}} games
-    {% else %}
-    No games found
-    {% endif %}
-            
+            Found {{gamelist|length}} games
+            {% else %}
+            No games found
+            {% endif %}
+
         </div>
 
 
-    <table class="table">
-        <thead>
-        <tr>
-            <th>Time Control</th>
-            <th>White</th>
-            <th>Black</th>
-            <th>Game Link</th>
-            <th>Analyze</th>
-        </tr>    
-        </thead>
-        <tbody>
-    {% for game in gamelist %}
-            <tr >
-                <td>{{game['time']|capitalize}}</td>
-                <td style="background-color:{{game['result_color']}};color:black">{{game['white']}}</td>
-                <td style="background-color:{{game['result_color']}};color:black">{{game['black']}}</td>
-                <td><a href="{{ game['url'] }}", target="_blank" style="color:inherit;">{{ game['url'] }}</a></td>
-                <td>
-                    <form action="/analyze" method="post" target="_blank">
-                        <button class="btn btn-primary btn-sm" type="submit" name="analyze" value="{{game['pgn']}}">
-                            Analyze
-                        </button>
-                    </form>
-                </td>
-            </tr>
-    {% endfor %}
-        </tbody>
-        
-    </table>
-</div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Time Control</th>
+                    <th>White</th>
+                    <th>Black</th>
+                    <th>Game Link</th>
+                    <th>Analyze</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for game in gamelist %}
+                <tr>
+                    <td>{{game['time']|capitalize}}</td>
+                    <td style="background-color:{{game['result_color']}};color:black">{{game['white']}}</td>
+                    <td style="background-color:{{game['result_color']}};color:black">{{game['black']}}</td>
+                    <td><a href="{{ game['url'] }}" , target="_blank" style="color:inherit;">{{ game['url'] }}</a></td>
+                    <td>
+                        <form action="/analyze" method="post" target="_blank">
+                            <button class="btn btn-primary btn-sm" type="submit" name="analyze" value="{{game['pgn']}}">
+                                Analyze
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+    </div>
 
 </main>
 
