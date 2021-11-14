@@ -58,9 +58,9 @@ def gamesbyMonth(username, year, month):
     dict_keys(
         ['url','pgn','time_control','end_time','rated','tcn','uuid','initial_setup','fen','time_class','rules','white','black'])
     """
-    BLITZ_ICON = "/static/img/blitz_icon.PNG"
-    RAPID_ICON = "/static/img/rapid_icon.PNG"
-    BULLET_ICON = "/static/img/bullet_icon.PNG"
+    BLITZ_ICON = "/static/img/blitz_icon.png"
+    RAPID_ICON = "/static/img/rapid_icon.png"
+    BULLET_ICON = "/static/img/bullet_icon.png"
     gamelist = []
     try:
         res = get_player_games_by_month(username, year, month)
