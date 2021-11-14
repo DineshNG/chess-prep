@@ -38,8 +38,9 @@
             <tbody>
                 {% for game in gamelist %}
                 <tr>
-                    <td>{{game['time']|capitalize}}</td>
-                    <td style="background-color:{{game['result_color']}};color:black">{{game['white']}}</td>
+                    <td>{{game['time']|capitalize}} <img src="{{ game['icon'] }}"
+                            style="float:right;width: 42px;height: 42px;"></td>
+                    <td style=" background-color:{{game['result_color']}};color:black">{{game['white']}}</td>
                     <td style="background-color:{{game['result_color']}};color:black">{{game['black']}}</td>
                     <td><a href="{{ game['url'] }}" , target="_blank" style="color:inherit;">{{ game['url'] }}</a></td>
                     <td>

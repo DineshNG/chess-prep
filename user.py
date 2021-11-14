@@ -58,17 +58,27 @@ def gamesbyMonth(username, year, month):
     dict_keys(
         ['url','pgn','time_control','end_time','rated','tcn','uuid','initial_setup','fen','time_class','rules','white','black'])
     """
+    BLITZ_ICON = "/static/img/blitz_icon.PNG"
+    RAPID_ICON = "/static/img/rapid_icon.PNG"
+    BULLET_ICON = "/static/img/bullet_icon.PNG"
     gamelist = []
     try:
         res = get_player_games_by_month(username, year, month)
         data = res.json["games"]
-        print(data[0]["pgn"])
         if len(data) > 0:
             for game in data:
+                icon_path = ""
                 game_dict = {}
                 result = "draw"
                 game_dict["pgn"] = game["pgn"]
                 game_dict["time"] = game["time_class"]
+                if game["time_class"].casefold() == "rapid":
+                    icon_path = RAPID_ICON
+                elif game["time_class"].casefold() == "blitz":
+                    icon_path = BLITZ_ICON
+                elif game["time_class"].casefold() == "bullet":
+                    icon_path = BULLET_ICON
+                game_dict["icon"] = icon_path
                 game_dict["white"] = game["white"]["username"]
                 game_dict["black"] = game["black"]["username"]
                 game_dict["url"] = game["url"]
